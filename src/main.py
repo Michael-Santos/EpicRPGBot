@@ -1,8 +1,18 @@
-from dotenv import load_dotenv, find_dotenv
+import os
+from dotenv.main import dotenv_values, find_dotenv, load_dotenv
 
 from Browser import Browser
 
-load_dotenv(find_dotenv())
+
+def load_config():
+    return {
+        **dotenv_values(find_dotenv()),
+        **os.environ
+    }
 
 
-browser = Browser()
+if __name__ == '__main__':
+    config = load_config()
+
+    browser = Browser(config)
+    browser.login()
