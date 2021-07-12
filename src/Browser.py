@@ -14,7 +14,7 @@ class Browser:
         try:
             self.driver = webdriver.Chrome(executable_path=driver_path, options=options)
         except:
-            self.driver = webdriver.Chrome(executable_path=driver_path, options=options)
+            self.driver = webdriver.Chrome(executable_path= driver_path, options=options)
 
     
     def login(self):
@@ -31,9 +31,9 @@ class Browser:
         if "@me" in driver.current_url:
             return
         
-        email_input = self.driver.find_element_by_xpath("//input[@name='email']")
-        password_input = self.driver.find_element_by_xpath("//input[@name='password']")
-        login_button = self.driver.find_element_by_xpath("//button[@type='submit']")
+        email_input = driver.find_element_by_xpath("//input[@name='email']")
+        password_input = driver.find_element_by_xpath("//input[@name='password']")
+        login_button = driver.find_element_by_xpath("//button[@type='submit']")
 
         email_input.send_keys(username)
         password_input.send_keys(password)
@@ -43,8 +43,13 @@ class Browser:
 
 
     def go_to_channel(self):
-        pass
+        driver = self.driver
+
+        channel_url = self._config["EPICRPG_CHANNEL_URL"]
+        driver.get(channel_url)
+
+        time.sleep(10)
 
 
-    def execute_command(self, command):
+    def send_chat_command(self, command):
         pass

@@ -16,3 +16,4 @@ if __name__ == '__main__':
 
     browser = Browser(config)
     browser.login()
+    browser.go_to_channel()
