@@ -1,10 +1,7 @@
 import os
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Browser:
@@ -40,7 +37,6 @@ class Browser:
         password_input.send_keys(password)
 
         login_button.click()
-        pass
 
 
     def go_to_channel(self):
@@ -61,7 +57,7 @@ class Browser:
 
         time.sleep(delay)
 
-    def _go_to_vote(self):
+    def go_to_vote(self):
         driver = self._driver
 
         vote_url = self._config["EPICRPG_VOTE_URL"]
@@ -72,7 +68,7 @@ class Browser:
     def vote(self):
         driver = self._driver
 
-        self._go_to_vote()
+        self.go_to_vote()
 
         login_button = driver.find_elements_by_xpath("//a[contains(text(), 'Login')]")
         if len(login_button) != 0 and login_button[0].is_displayed():
@@ -87,15 +83,9 @@ class Browser:
         if len(sponsor_ignore_button) != 0 and sponsor_ignore_button[0].is_displayed():
             sponsor_ignore_button[0].click()
             time.sleep(5)
-        
-
-        # wait = WebDriverWait(driver, 10)
-        # sponsor_ignore_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='votingvoted']")))
-        # sponsor_ignore_button.click()
-
 
         time.sleep(20)
         sponsor_ignore_button = driver.find_element_by_xpath("//input[@id='votingvoted']")
         sponsor_ignore_button.click()
 
-        # It's necessary to bypass recaptcha
+        # TODO: It's necessary to bypass recaptcha

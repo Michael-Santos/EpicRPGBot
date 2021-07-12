@@ -2,8 +2,9 @@ class EpicRpg:
     def __init__(self, config, browser):
         self._config = config
         self._browser = browser
+        self._login()
 
-    def login(self):
+    def _login(self):
         self._browser.login()
         self._browser.go_to_channel()
 
@@ -32,5 +33,7 @@ class EpicRpg:
         self._browser("rpg weekly")
     
     def vote(self):
-        #self._browser("rpg vote")
+        self._browser.go_to_vote()
+        self._browser.vote()
+        self._browser.go_to_channel()
         pass
