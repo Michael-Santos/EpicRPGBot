@@ -1,6 +1,7 @@
 import os
 import time
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class Browser:
     def __init__(self, config):
@@ -51,5 +52,14 @@ class Browser:
         time.sleep(10)
 
 
-    def send_chat_command(self, command):
-        pass
+    def send_chat_command(self, command, delay=1):
+        driver = self.driver
+
+        chat_input = driver.find_element_by_xpath("//div[@data-slate-object='block']")
+        chat_input.send_keys(command)
+        chat_input.send_keys(Keys.ENTER)
+
+        time.sleep(delay)
+
+    def vote(self):
+        
