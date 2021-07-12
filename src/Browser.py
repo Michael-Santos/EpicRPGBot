@@ -41,5 +41,10 @@ class Browser:
         login_button.click()
         pass
 
+
+    def go_to_channel(self):
+        pass
+
+
     def execute_command(self, command):
         pass
