@@ -3,6 +3,10 @@ class EpicRpg:
         self._config = config
         self._browser = browser
 
+    def login(self):
+        self._browser.login()
+        self._browser.go_to_channel()
+
     # Xp farm
     def adventure(self):
         self._browser("rpg adventure")
