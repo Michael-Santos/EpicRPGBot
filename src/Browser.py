@@ -6,29 +6,37 @@ from selenium.webdriver.common.keys import Keys
 
 class Browser:
     def __init__(self, config):
+        print("Starting browser")
         self._config = config
         driver_path = os.path.join(".", "src", "drivers", "chromedriver.exe")
         options = webdriver.ChromeOptions()
         userdata = "user-data-dir=" + self._config["EPICRPG_PROFILE_SELENIUM_DIR"]
         options.add_argument(userdata)
         options.add_argument("--profile-directory=Selenium")
+        options.add_argument("--log-level=3")
+        if config.get("EPICRPG_HEADLESS") == 'True':
+            options.add_argument("--headless")
+
         self._driver = webdriver.Chrome(executable_path= driver_path, options=options)
 
     
     def login(self):
+        print("Login")
         driver = self._driver
         url = self._config["EPICRPG_LOGIN_URL"]
         username = self._config["EPICRPG_USERNAME"]
         password = self._config["EPICRPG_PASSWORD"]
 
         driver.get(url)
+        driver.set_window_size(1400,1000)
 
         time.sleep(10)
-
         # Check if you are already logged in
         if "@me" in driver.current_url:
+            print("You are already logged in")
             return
         
+        print("Inserting credentials")
         email_input = driver.find_element_by_xpath("//input[@name='email']")
         password_input = driver.find_element_by_xpath("//input[@name='password']")
         login_button = driver.find_element_by_xpath("//button[@type='submit']")
@@ -37,6 +45,7 @@ class Browser:
         password_input.send_keys(password)
 
         login_button.click()
+        print("Login finished")
 
 
     def go_to_channel(self):
@@ -47,16 +56,7 @@ class Browser:
 
         time.sleep(5)
 
-
-    def send_chat_command(self, command, delay=1):
-        driver = self._driver
-
-        chat_input = driver.find_element_by_xpath("//div[@data-slate-object='block']")
-        chat_input.send_keys(command)
-        chat_input.send_keys(Keys.ENTER)
-
-        time.sleep(delay)
-
+    
     def go_to_vote(self):
         driver = self._driver
 
@@ -64,6 +64,18 @@ class Browser:
         driver.get(vote_url)
 
         time.sleep(5)
+
+
+    def send_chat_command(self, command, delay=1):
+        driver = self._driver
+
+        print(command)
+        chat_input = driver.find_element_by_xpath("//div[@data-slate-object='block']")
+        chat_input.send_keys(command)
+        chat_input.send_keys(Keys.ENTER)
+
+        time.sleep(delay)
+
 
     def vote(self):
         driver = self._driver
